@@ -204,7 +204,7 @@
 #![doc(
     html_logo_url = "https://www.rust-lang.org/logos/rust-logo-128x128-blk.png",
     html_favicon_url = "https://www.rust-lang.org/favicon.ico",
-    html_root_url = "https://docs.rs/getrandom/0.2.17"
+    html_root_url = "https://docs.rs/getrandom/0.2.18"
 )]
 #![no_std]
 #![warn(rust_2018_idioms, unused_lifetimes, missing_docs)]
@@ -235,7 +235,9 @@ pub use crate::error::Error;
 // The function MUST NOT ever write uninitialized bytes into `dest`,
 // regardless of what value it returns.
 cfg_if! {
-    if #[cfg(any(target_os = "haiku", target_os = "redox", target_os = "nto", target_os = "aix"))] {
+    if #[cfg(all(feature = "unsafe_deterministic_testing"))] {
+        #[path = "deterministic.rs"] mod imp;
+    } else if #[cfg(any(target_os = "haiku", target_os = "redox", target_os = "nto", target_os = "aix"))] {
         mod util_libc;
         #[path = "use_file.rs"] mod imp;
     } else if #[cfg(any(
