@@ -7,3 +7,6 @@ runner = 'wasmtime'
 # Just run on node by default (that's where emscripten is tested)
 [target.'cfg(target_os = "emscripten")']
 runner = 'node'
+
+[build]
+rustflags = ['--cfg', 'getrandom_backend="deterministic_testing"']

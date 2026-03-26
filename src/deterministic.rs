@@ -4,8 +4,6 @@
 // even though the crate is `#![no_std]`.
 extern crate std;
 
-pub use crate::util::{inner_u32, inner_u64};
-
 use crate::Error;
 
 use chacha20::ChaCha12Rng;
@@ -20,7 +18,7 @@ use std::{
 static RNG: OnceLock<Mutex<HashMap<std::thread::ThreadId, ChaCha12Rng>>> = OnceLock::new();
 
 #[inline]
-pub fn fill_inner(dest: &mut [MaybeUninit<u8>]) -> Result<(), Error> {
+pub fn getrandom_inner(dest: &mut [MaybeUninit<u8>]) -> Result<(), Error> {
     // get current thread id
     let id = std::thread::current().id();
 
